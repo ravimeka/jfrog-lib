@@ -1,0 +1,23 @@
+name: CI - MyLib
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+
+
+jobs:
+  build:
+    steps:
+      - uses: actions/checkout@v2
+      - name: build wheel
+        if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+        run: python setup.py bdist_wheel
+      - name: Push to Jfrog
+        if: github.event_name == 'push'
+        run: |
+          pip install -r requirements.txt
+          twine upload --repository-url ${{ secrets.JFROG_REPO_URL }} -u ${{ secrets.JFROG_USER }} -p ${{ secrets.JFROG_PWD }} dist/*
