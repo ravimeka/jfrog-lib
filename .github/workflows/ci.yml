@@ -33,11 +33,15 @@ jobs:
       with:
         name: coverage
     - name: pwd 1
-      run: pwd
+      run: |
+        pwd
+        ls
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@v1.3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     - name: pwd 2
-      run: pwd
+      run: |
+        pwd
+        ls
