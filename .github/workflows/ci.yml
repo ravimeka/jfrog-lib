@@ -20,6 +20,7 @@ jobs:
           path: cov.xml
           retention-days: 1
   sonar_cloud:
+    needs: unit_tests
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -35,6 +36,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   build:
+    needs: sonar_cloud
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
