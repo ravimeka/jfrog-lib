@@ -12,7 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: pip install -r requirements.txt
-      - run: pytest --cov-report xml:cov.xml --cov=mylib/ tests/unit_tests
+      - run: |
+          pytest --cov-report xml:cov.xml --cov=mylib/ tests/unit_tests
+          sed -i 's/\/home\/runner\/work\/jfrog-lib\/jfrog-lib\///g' cov.xml
       - name: upload cov.xml from pytest
         uses: actions/upload-artifact@v3
         with:
