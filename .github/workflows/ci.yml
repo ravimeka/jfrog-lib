@@ -14,6 +14,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: pytest --cov-report xml:cov.xml --cov=mylib/ tests/unit_tests
       - name: upload cov.xml from pytest
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: cov.xml
