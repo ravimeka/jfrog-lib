@@ -32,21 +32,10 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: coverage
+      run: pwd
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@v1.3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  build:
-    needs: sonar_cloud
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: build wheel
-        if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
-        run: python setup.py bdist_wheel
-      - name: Push to Jfrog
-        if: github.event_name == 'push'
-        run: |
-          pip install -r requirements.txt
-          twine upload --repository-url ${{ secrets.JFROG_REPO_URL }} -u ${{ secrets.JFROG_USER }} -p ${{ secrets.JFROG_PWD }} dist/*
+      run: pwd
