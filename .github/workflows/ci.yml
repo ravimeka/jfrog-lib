@@ -8,31 +8,31 @@ on:
       - main
 jobs:
   unit_tests:
-  runs-on: ubuntu-latest
-  steps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: pip install -r requirements.txt
+      - run: pytest --cov-report xml:cov.xml --cov=mylib/ tests/unit_tests
+      - name: upload cov.xml from pytest
+        with:
+          name: coverage
+          path: cov.xml
+          retention-days: 1
+  sonar_cloud:
+    runs-on: ubuntu-latest
+    steps:
     - uses: actions/checkout@v2
-    - run: pip install -r requirements.txt
-    - run: pytest --cov-report xml:cov.xml --cov=mylib/ tests/unit_tests
-    - name: upload cov.xml from pytest
+      with:
+        fetch-depth: 0
+    - name: download cov.xml from pytest action
+      uses: actions/download-artifact@v3
       with:
         name: coverage
-        path: cov.xml
-        retention-days: 1
-  sonar_cloud:
-  runs-on: ubuntu-latest
-  steps:
-  - uses: actions/checkout@v2
-    with:
-      fetch-depth: 0
-  - name: download cov.xml from pytest action
-    uses: actions/download-artifact@v3
-    with:
-      name: coverage
-  - name: SonarCloud Scan
-    uses: sonarsource/sonarcloud-github-action@v1.3
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@v1.3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   build:
     runs-on: ubuntu-latest
     steps:
