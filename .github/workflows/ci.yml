@@ -36,6 +36,7 @@ jobs:
       run: |
         pwd
         ls
+        more cov.xml
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@v1.3
       env:
