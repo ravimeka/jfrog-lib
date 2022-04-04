@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: pip install -r requirements.txt
       - run: |
-          pytest --cov-report xml:cov.xml --cov=tests/unit_tests
+          pytest --cov-report xml:cov.xml --cov=mylib/ tests/unit_tests
           sed -i 's/\/home\/runner\/work\/jfrog-lib\/jfrog-lib\///g' cov.xml
       - name: upload cov.xml from pytest
         uses: actions/upload-artifact@v3
@@ -36,7 +36,6 @@ jobs:
       run: |
         pwd
         ls
-        more cov.xml
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@v1.3
       env:
