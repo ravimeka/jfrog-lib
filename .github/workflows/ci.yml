@@ -14,12 +14,13 @@ jobs:
       - run: pip install -r requirements.txt
       - run: |
           pytest --cov-report xml:cov.xml --cov=mylib/ tests/unit_tests
-          sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' cov.xml          
+          sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' coverage.xml
+          echo $sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g'         
       - name: upload cov.xml from pytest
         uses: actions/upload-artifact@v3
         with:
           name: coverage
-          path: cov.xml
+          path: coverage.xml
           retention-days: 1
   sonar_cloud:
     needs: unit_tests
